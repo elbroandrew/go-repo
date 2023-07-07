@@ -2,23 +2,28 @@ package main
 
 import (
 	"fmt"
-	"sync"
 	"time"
 )
 
-var wg sync.WaitGroup
+func say(s string) {
+	for i := 0; i < 5; i++ {
+		time.Sleep(1 * time.Second)
+		fmt.Println(s)
+	}
+
+}
 
 func main() {
 
 	/*
-		Канал ялвяется блокиратором и с ним можно выстроить так работу, чтоб горутина выполнялась в порядке как мне надо
+		Sleep() передает контроль
 	*/
 
-	go func() {
-		fmt.Println("START G")
+	go say("hello")
+	say("world")
 
-	}()
-
-	<-time.After(2 * time.Second)
+	/*
+		result: hello, world 5 раз выведет, но если уберу Sleep, то выведет только world
+	*/
 
 }
