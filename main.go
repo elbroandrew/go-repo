@@ -1,32 +1,31 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+var wg sync.WaitGroup
 
 func main() {
-	var a = []int{2, 3, 4, 4, 3, 1, 4, 5, 4, 7, 6}
-	var x = maxSubArray(a, 3)
-	fmt.Println(x)
-}
 
-// sliding window
-func maxSubArray(arr []int, num int) any {
-	var maxSum = 0
-	var tempSum = 0
-	if len(arr) < num {
-		return nil
-	}
-	//find sum of 3 elements
-	for i := 0; i < num; i++ {
-		maxSum += arr[i]
-	}
-	tempSum = maxSum
-	// 1,2,3,4,5 -> -arr[0] 2+3+4 +arr[i];
-	for i := num; i < len(arr); i++ {
-		tempSum = -arr[i-num] + tempSum + arr[i]
-		if maxSum < tempSum {
-			maxSum = tempSum
-		}
+	for i := 0; i < 4; i++ {
+		wg.Add(2) // группа будет состоять из 2 горутин
+		go func(x int) {
+			defer wg.Done()
+			fmt.Printf("START %d \n", x)
+			time.Sleep(2 * time.Second)
+			fmt.Printf("END %d\n", x)
+		}(i)
+
+		go func(x int) {
+			defer wg.Done()
+			fmt.Printf("START %d \n", x)
+			time.Sleep(2 * time.Second)
+			fmt.Printf("END %d\n", x)
+		}(i)
 	}
 
-	return maxSum
+	wg.Wait() // это блокирует одну горутину, пока не выполнится первая 4 раза в (моём случае)
 }
