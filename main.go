@@ -11,19 +11,14 @@ var wg sync.WaitGroup
 func main() {
 
 	/*
-		В таком случае угорутины запускаются в случайном порядке.
+		Канал ялвяется блокиратором и с ним можно выстроить так работу, чтоб горутина выполнялась в порядке как мне надо
 	*/
 
-	for i := 0; i < 4; i++ {
-		wg.Add(1)
+	go func() {
+		fmt.Println("START G")
 
-		go func(x int) {
-			defer wg.Done()
-			fmt.Printf("START %d \n", x)
-			time.Sleep(1 * time.Second)
-			fmt.Printf("END %d\n", x)
-		}(i)
-	}
+	}()
 
-	wg.Wait()
+	<-time.After(2 * time.Second)
+
 }
