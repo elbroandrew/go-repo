@@ -2,28 +2,21 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
-func say(s string) {
-	for i := 0; i < 5; i++ {
-		time.Sleep(1 * time.Second)
-		fmt.Println(s)
+func main() {
+	var src []int
+	for x := 1; x <= 100; x++ {
+		src = append(src, x)
 	}
 
-}
+	t := append(src[:10], src[(len(src)-10):]...)
 
-func main() {
+	var v []int
+	for i := len(t); i >= t[0]; i-- {
+		v = append(v, t[i-1])
+	}
 
-	/*
-		Sleep() передает контроль
-	*/
-
-	go say("hello")
-	say("world")
-
-	/*
-		result: hello, world 5 раз выведет, но если уберу Sleep, то выведет только world
-	*/
-
+	fmt.Println(t)
+	fmt.Println(v)
 }
