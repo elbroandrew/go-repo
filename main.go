@@ -1,22 +1,24 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
-	var src []int
-	for x := 1; x <= 100; x++ {
-		src = append(src, x)
-	}
 
-	t := append(src[:10], src[(len(src)-10):]...)
+	var m map[string]string // объявление мапы, неинициализированная мапа
+	//m["foo"] = "bar"  // panic
 
-	var v []int
-	for i := len(t); i >= t[0]; i-- {
-		v = append(v, t[i-1])
-	}
+	var m1 = make(map[string]string) // это инициализированная
+	m1["foo"] = "bar"                // ok
+	fmt.Println(m, m1)
 
-	fmt.Println(t)
-	fmt.Println(v)
+	var v, ok = m1["foo"] //
+	fmt.Println(v, ok)
+
+	// получить ссылку на адрес элемента не получится, т.к. при добавлении элементов могут происходить перемещаения в памяти
+	//addr := &m1["foo"]  //ошибка
+
+	//удалить элемент
+	delete(m1, "foo")
+	fmt.Println(m1)
+
 }
