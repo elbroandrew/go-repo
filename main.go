@@ -12,8 +12,7 @@ func Add(x int, y int) int {
 
 func main() {
 
-	// file, err := os.Open("file.txt") // open in read-only format
-	file, err := os.OpenFile("file.txt", os.O_RDWR|os.O_TRUNC, 0755)
+	file, err := os.Open("data1.txt")
 	if err != nil {
 		fmt.Println("Unable to open file:", err)
 		return
@@ -21,17 +20,19 @@ func main() {
 
 	defer file.Close()
 
-	reader := bufio.NewReader(os.Stdin)
-	writer := bufio.NewWriter(file)
+	reader := bufio.NewReader(file)
+	writer := bufio.NewWriter(os.Stdout)
 
-	var n string
-	fmt.Fscan(reader, &n)
-	// fmt.Fprintln(writer, n)
-	_, err = writer.WriteString(n)
-	if err != nil {
-		fmt.Println("Unable to write file:", err)
+	var testCount int
+	fmt.Fscan(reader, &testCount)
+	// fmt.Printf("%d\n", testCount)
+
+	for i := 0; i < testCount; i++ {
+		var n, m int
+		fmt.Fscan(reader, &n, &m)
+		fmt.Fprintln(writer, Add(n, m))
+		
 	}
-	fmt.Printf("wrote %s\n", n)
 
 	writer.Flush()
 
