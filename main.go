@@ -1,29 +1,24 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
-
-func say(s string) {
-	for i := 0; i < 5; i++ {
-		time.Sleep(1 * time.Second)
-		fmt.Println(s)
-	}
-
-}
+import "fmt"
 
 func main() {
 
-	/*
-		Sleep() передает контроль
-	*/
+	var m map[string]string // объявление мапы, неинициализированная мапа
+	//m["foo"] = "bar"  // panic
 
-	go say("hello")
-	say("world")
+	var m1 = make(map[string]string) // это инициализированная
+	m1["foo"] = "bar"                // ok
+	fmt.Println(m, m1)
 
-	/*
-		result: hello, world 5 раз выведет, но если уберу Sleep, то выведет только world
-	*/
+	var v, ok = m1["foo"] //
+	fmt.Println(v, ok)
+
+	// получить ссылку на адрес элемента не получится, т.к. при добавлении элементов могут происходить перемещаения в памяти
+	//addr := &m1["foo"]  //ошибка
+
+	//удалить элемент
+	delete(m1, "foo")
+	fmt.Println(m1)
 
 }
