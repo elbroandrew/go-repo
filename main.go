@@ -43,7 +43,7 @@ output:
 
 */
 
-func payment(n map[int]int) int {
+func PaymentSum(n map[int]int) int {
 	offPriceNumber := 3
 
 	var sum int = 0
@@ -63,32 +63,26 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 	writer := bufio.NewWriter(os.Stdout)
 
-
 	var testCount int
 	fmt.Fscan(reader, &testCount)
 
-	m := make(map[int]int)
-
-
 	for i := 0; i < testCount; i++ {
-		
+		m := make(map[int]int)
 
 		var goodsCount, price int
 		fmt.Fscan(reader, &goodsCount)
-		
+
 		for j := 0; j < goodsCount; j++ {
 
 			fmt.Fscan(reader, &price)
 			if _, ok := m[price]; ok {
 				m[price] += 1
-			}else{
+			} else {
 				m[price] = 1
 			}
 		}
 
-		fmt.Printf("%#v\n", m)
-
-		fmt.Fprintln(writer, payment(m))
+		fmt.Fprintln(writer, PaymentSum(m))
 	}
 
 	writer.Flush()

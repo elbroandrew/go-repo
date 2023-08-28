@@ -1,26 +1,63 @@
 package main
 
-import "testing"
-
-// arg1 means argument 1 and arg2 means argument 2, and the expected stands for the 'result we expect'
-type addTest struct {
-    arg1, arg2, expected int
-}
-
-var addTests = []addTest{
-    addTest{2, 3, 5},
-    addTest{4, 8, 12},
-    addTest{6, 9, 15},
-    addTest{3, 10, 13},
-    
-}
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"testing"
+)
 
 
-func TestAdd(t *testing.T){
+func TestSum(t *testing.T) {
 
-    for _, test := range addTests{
-        if output := Add(test.arg1, test.arg2); output != test.expected {
-            t.Errorf("Output %q not equal to expected %q", output, test.expected)
-        }
-    }
+	fileInputs, err := os.Open("inputs.txt")
+	if err != nil {
+		fmt.Println("Unable to open inputs file:", err)
+		return
+	}
+
+	fileOutputs, err := os.Open("outputs.txt")
+	if err != nil {
+		fmt.Println("Unable to open outputs file:", err)
+		return
+	}
+
+	defer fileInputs.Close()
+	defer fileOutputs.Close()
+
+	reader := bufio.NewReader(fileInputs)
+	reader2 := bufio.NewReader(fileOutputs)
+
+	var testCount int
+	fmt.Fscan(reader, &testCount)
+
+	
+
+	for i := 0; i < testCount; i++ {
+		
+		inputs := make(map[int]int)
+		var expectedSum int
+
+		var goodsCount, price int
+		fmt.Fscan(reader, &goodsCount)
+
+		for j := 0; j < goodsCount; j++ {
+
+			fmt.Fscan(reader, &price)
+			if _, ok := inputs[price]; ok {
+				inputs[price] += 1
+			} else {
+				inputs[price] = 1
+			}
+		}
+
+		fmt.Fscan(reader2, &expectedSum)
+
+		fmt.Printf("%d\n", expectedSum)
+
+		if output := PaymentSum(inputs); output != expectedSum {
+			t.Errorf("Output %d not equal to expected %d", output, expectedSum)
+		}
+
+	}
 }
