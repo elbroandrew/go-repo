@@ -7,7 +7,6 @@ import (
 
 const num = 500
 
-
 func main() {
 
 	mutex := sync.Mutex{}
@@ -16,7 +15,7 @@ func main() {
 
 	value := 0
 	for i := 0; i < num; i++ {
-		go func(){
+		go func() {
 			defer wg.Done()
 
 			mutex.Lock()
